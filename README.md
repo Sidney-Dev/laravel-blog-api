@@ -26,7 +26,9 @@ This application demonstrates the knowledge of fundamentals concepts related to 
 
 ## Installation
 
-- clone the repository and cd into the project root directory
+- clone the repository and cd into the project root directory: ie: git clone git@github.com:Sidney-Dev/laravel-blog-api.git && cd /project/directory
+
+From the root directory run the following commands:
 - composer install
 - php artisan key:gen
 - cp .env.example .env
