@@ -14,11 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('users')->delete();
         User::truncate();
         Post::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         User::factory()->count(5)->hasPosts(3)->create();
 
