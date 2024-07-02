@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\PostStoreRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PostCollection;
@@ -18,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->get();
+        $posts = Post::with('user')->orderBy('id', 'desc')->get();
         return new PostCollection($posts);
     }
 
@@ -47,24 +48,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // Validate the incoming request data
-        $validator = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $post->fill($validated);
+        $post->title = $request->title;
+        $post->body = $request->body;
 
         if ($post->isDirty()) {
             $post->save();
         }
+
+        return $post;
 
         // Return the updated post using the PostResource
         return new PostResource($post);
